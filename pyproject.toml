@@ -1,0 +1,41 @@
+# Vendored Talk2DINO -- the upstream repo ships no packaging, so this lets it be
+# installed (`pip install -e .`) instead of relying on sys.path hacks.
+#
+# NOTE: the repo imports its own code as the top-level package `src` (src/__init__.py
+# exists, and e.g. src/model.py does `from src.hooks import ...`). So the importable
+# package is literally `src` -- unusual, but it matches the upstream code without
+# editing it. The standalone embedder used by wff_object_search only needs
+# `src.model` + `src.hooks`, which depend on torch/clip/timm/transformers (below).
+#
+# `import clip` is OpenAI CLIP (NOT the PyPI package named `clip`); install it with:
+#   pip install git+https://github.com/openai/CLIP.git
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "talk2dino"
+version = "0.0.1"
+description = "Talk2DINO (vendored): align DINOv2 patch features with CLIP text."
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "torch",
+    "timm",
+    "transformers",
+    "ftfy",
+    "regex",
+    "pyyaml",
+    "omegaconf",
+    "numpy",
+    "Pillow",
+]
+
+[project.optional-dependencies]
+# Full open-vocabulary-segmentation stack (heavy; OpenMMLab). NOT needed for the
+# standalone embedder wff_object_search uses.
+openvocab = ["mmcv<2", "termcolor"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["src*"]
