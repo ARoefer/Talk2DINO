@@ -46,7 +46,7 @@ class DinoClipDataset(Dataset):
     
     def __load_pth_dataset(self, features_file, features_name='dino_features', text_features='ann_feats', load_attn_maps=False):
         print("Loading dataset...")
-        data = torch.load(features_file, map_location='cpu')    
+        data = torch.load(features_file, map_location='cpu', weights_only=False)
         print("Dataset loaded!")
         
         images = {imm['id']: imm for imm in data['images']}
@@ -105,7 +105,7 @@ class DinoClipDataset(Dataset):
  
 class COCOCaptions(Dataset):
     def __init__(self, ann_path, data_dir, split="train", image_transform=None, text_transform=None, device="cuda"):
-        self.data = torch.load(ann_path)
+        self.data = torch.load(ann_path, weights_only=False)
         self.data_dir = data_dir
         self.split = split
         images = {imm['id']: imm for imm in self.data['images']}

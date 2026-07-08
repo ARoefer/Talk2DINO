@@ -43,7 +43,7 @@ def run_bert_extraction(model_name, ann_path, batch_size, out_path, extract_dens
         data = cc2coco_format(ann_path, n_in_splits, in_batch_offset)
     else:
         # otherwise we treat the dataset as a COCO dataset
-        data = torch.load(ann_path)
+        data = torch.load(ann_path, weights_only=False)
         
     print("Starting the features extraction...")
     n_capts = len(data['annotations'])

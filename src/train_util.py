@@ -9,7 +9,10 @@ import matplotlib.pyplot as plt
 from src.loss import ContrastiveLoss
 import os
 import matplotlib.pyplot as plt
-import wandb
+try:
+    import wandb
+except ModuleNotFoundError:  # wandb is optional; only used when --use_wandb is passed
+    wandb = None
 import numpy as np
 import random
 import json

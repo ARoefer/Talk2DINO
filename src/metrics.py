@@ -119,8 +119,8 @@ def t2i(images, captions, npts=None, return_ranks=False, model=None):
 
 def get_image_and_text_tensor(path, feature_name='dino_features', text_features='ann_feats', model=None, return_capts_and_imms=False):
     # model can be used in the case of feature_name == 'patch_tokens', in order to get the weights of the attention maps 
-    data = torch.load(path)
-        
+    data = torch.load(path, weights_only=False)
+
     if model is None:
         images = {imm['id']: imm[feature_name] for imm in data['images']}
     else:
